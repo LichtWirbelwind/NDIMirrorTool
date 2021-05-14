@@ -315,33 +315,17 @@ namespace NewTek.NDI.WPF
                             {
                                 VideoBitmap.Lock();
 
-                                unsafe
+                                IntPtr pBackBuffer = VideoBitmap.BackBuffer;
+
+                                try
                                 {
-                                    // update the writeable bitmap
-                                    //VideoBitmap.WritePixels(new Int32Rect(0, 0, xres, yres), videoFrame.p_data, bufferSize, stride);
-                                    // Get a pointer to the back buffer.
-                                    IntPtr pBackBuffer = VideoBitmap.BackBuffer;
-
-                                    //try
-                                    //{
-                                    //    byte[] temp = new byte[bufferSize];
-                                    //    Marshal.Copy(videoFrame.p_data, temp, 0, bufferSize);
-                                    //    Marshal.Copy(temp, 0, pBackBuffer, bufferSize);
-                                    //}
-                                    //catch
-                                    //{
-
-                                    //    return;
-                                    //}
-                                    try
-                                    {
-                                        CopyMemory(pBackBuffer, videoFrame.p_data, (uint)bufferSize);
-                                    }
-                                    catch
-                                    {
-                                        return;
-                                    }
+                                    CopyMemory(pBackBuffer, videoFrame.p_data, (uint)bufferSize);
                                 }
+                                catch
+                                {
+                                    return;
+                                }
+
                                 // Specify the area of the bitmap that changed.
                                 VideoBitmap.AddDirtyRect(new Int32Rect(0, 0, xres, yres));
                             }
