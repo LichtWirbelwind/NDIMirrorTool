@@ -1,0 +1,67 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:NDI="clr-namespace:NewTek.NDI.WPF;assembly=NDIlibDotNet2"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="NDI_Mirror_Tool.MainWindow" x:Name="TheMainWindow"
+        Title="NDI Mirror Tool" Height="400" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="368*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Border Background="Black" BorderBrush="Gray" BorderThickness="3" CornerRadius="8" Margin="8,16,0,16" Grid.ColumnSpan="1">
+            <NDI:ReceiveView x:Name="ReceiveViewer" ReceiverName="Preview" Margin="4" ConnectedSource="{Binding SelectedItem, ElementName=SourcesSelector, UpdateSourceTrigger=PropertyChanged}"/>
+        </Border>
+        <Grid Grid.Column="1" Margin="8,16" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding FindInstance.Sources.Count, ElementName=TheMainWindow, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text=" NDI Sources" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <ListBox x:Name="SourcesSelector" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="1" ItemsSource="{Binding}" SelectedItem="{Binding ElementName=TheMainWindow, Path=RouterInstance.SelectedSource}">
+                <ListBox.DataContext>
+                    <CollectionViewSource Source="{Binding FindInstance.Sources, ElementName=TheMainWindow, UpdateSourceTrigger=PropertyChanged}" >
+                        <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription PropertyName="Name"/>
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                </ListBox.DataContext>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <CheckBox Content="プレビュー" IsChecked="True" Margin="0,0,105,6" Grid.Row="3" Checked="Preview_Checked" Unchecked="Preview_Unchecked"/>
+            <Button x:Name="ChangeNameButton" Margin="84,18,0,10" Grid.Row="2" Grid.RowSpan="2" Background="{StaticResource GrayBlueGradientBrush}" Content="走者名変更" Click="ChangeNameButton_Click"/>
+        </Grid>
+
+        <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
+        <Grid x:Name="InputBox" Visibility="Collapsed">
+            <Grid Background="Black" Opacity="0.5"/>
+            <Border
+            MinWidth="250"
+            Background="Orange" 
+            BorderBrush="Black" 
+            BorderThickness="1" 
+            CornerRadius="0,25,0,25" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="走者名を入力してください" FontWeight="Bold" FontFamily="BIZ UDPゴシック" />
+                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"  FontFamily="BIZ UDPゴシック" KeyDown="OnKeyDownHandler" x:Name="InputTextBox"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="OKButton" Margin="5" Content="OK" Background="{x:Null}" Click="OKButton_Click"/>
+                        <Button x:Name="CancelButton" Margin="5" Content="キャンセル" Background="{x:Null}" Click="CancelButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
