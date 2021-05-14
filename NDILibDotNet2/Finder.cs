@@ -211,8 +211,8 @@ namespace NewTek.NDI
 
         private IntPtr _findInstancePtr = IntPtr.Zero;
 
-        private ObservableCollection<Source> _sourceList = new ObservableCollection<Source>();
-        private object _sourceLock = new object();        
+        private readonly ObservableCollection<Source> _sourceList = new ObservableCollection<Source>();
+        private readonly object _sourceLock = new object();        
 
         // a thread to find on so that the UI isn't dragged down
         Thread _findThread = null;

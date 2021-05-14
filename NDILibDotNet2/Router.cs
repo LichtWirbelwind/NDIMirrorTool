@@ -118,10 +118,7 @@ namespace NewTek.NDI
 
         private void NotifyPropertyChanged(String info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
 
         public void Dispose()
@@ -216,7 +213,7 @@ namespace NewTek.NDI
             UpdateRouting();
         }        
 
-        private String[] _groups = null;
+        private readonly String[] _groups = null;
         private IntPtr _routingInstancePtr = IntPtr.Zero;
         private Source _selectedSource = new Source();
         private String _routingName = "Routing";

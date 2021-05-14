@@ -42,15 +42,7 @@ namespace NDI_Mirror_Tool
             if (ReceiveViewer != null)
             {
                 ReceiveViewer.IsVideoEnabled = true;
-                ReceiveViewer.IsAudioEnabled = false;
             }
-            // 起動時に入力しないよう変更
-            //InputBox.Visibility = Visibility.Visible;
-            // ListBoxの一番上を選択しておく
-            //if (SourcesSelector.Items.Count > 0)
-            //{
-            //    SourcesSelector.SelectedItem = SourcesSelector.Items[0];
-            //}
         }
 
         // properly dispose of the unmanaged objects
@@ -101,7 +93,7 @@ namespace NDI_Mirror_Tool
         }
 
         // we give our router a name here, but it can be changed later if needed
-        private Router _routerInstance = new Router(Application.Current.Properties["RunnerName"].ToString());
+        private readonly Router _routerInstance = new Router(Application.Current.Properties["RunnerName"].ToString());
 
         private void ChangeNameButton_Click(object sender, RoutedEventArgs e)
         {

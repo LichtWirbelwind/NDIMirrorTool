@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDILibDotNet2", "NDILibDotNet2\NDILibDotNet2.csproj", "{7195BFA6-8095-4618-96F6-8577DB13FB43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDIMirrorTool", "NDIMirrorTool\NDIMirrorTool.csproj", "{B4F58A71-9CFE-4AD5-AD0F-E345C46640D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7195BFA6-8095-4618-96F6-8577DB13FB43} = {7195BFA6-8095-4618-96F6-8577DB13FB43}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
