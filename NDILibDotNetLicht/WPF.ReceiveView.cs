@@ -338,6 +338,29 @@ namespace NewTek.NDI.WPF
                             // This writepixels call is dispatched, so we must do it inside this scope.
                             NDIlib.recv_free_video_v2(_recvInstancePtr, ref videoFrame);
                         }));
+
+#if DEBUG
+                        // フレームレートを計算
+                        DateTime now = DateTime.Now;
+                        TimeSpan dist = now - last;
+                        if (dist.Seconds > 0)
+                        {
+                            Console.WriteLine("フレームレート：<1");
+                        }
+                        else
+                        {
+                            if (dist.Milliseconds == 0)
+                            {
+                                Console.WriteLine("フレームレート：∞");
+                            }
+                            else
+                            {
+                                int frame = 1000 / dist.Milliseconds;
+                                Console.WriteLine("フレームレート：{0}", frame.ToString());
+                            }
+                        }
+                        last = now;
+#endif
                         break;
 
                     case NDIlib.frame_type_e.frame_type_audio:
@@ -372,5 +395,9 @@ namespace NewTek.NDI.WPF
 
         // should we send video to Windows or not?
         private bool _videoEnabled = true;
+
+#if DEBUG
+        private DateTime last = DateTime.Now;
+#endif
     }
 }
