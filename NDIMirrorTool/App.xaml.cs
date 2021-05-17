@@ -13,6 +13,12 @@ namespace NDI_Mirror_Tool
     /// </summary>
     public partial class App : Application
     {
+        // コンソールにヘルプを表示するために追加
+        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
+        public static extern bool AttachConsole(int processId);
+        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
+        public static extern bool FreeConsole();
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             bool name_flag = false;
@@ -24,11 +30,32 @@ namespace NDI_Mirror_Tool
                 {
                     case "/n":
                     case "-n":
-                    case "--n":
+                    case "--name":
                     case "/t":
                     case "-t":
-                    case "--t":
+                    case "--title":
                         name_flag = true;
+                        break;
+                    case "-h":
+                    case "--help":
+                    case "/?":
+                    case "-?":
+                        if (AttachConsole(-1) == false)
+                        {
+                            return;
+                        }
+
+                        Console.WriteLine("usage: NDIMirrorTool [OPTIONS] [TITLE]");
+                        Console.WriteLine("");
+                        Console.WriteLine("General options:");
+                        Console.WriteLine("  -h, --help, -?, /?");
+                        Console.WriteLine("    Show this help message and exit.");
+                        Console.WriteLine("  -t, --title, /t, -n, --name, /n");
+                        Console.WriteLine("    Change runner name(title).");
+
+                        FreeConsole();
+
+                        Application.Current.Shutdown();
                         break;
                     default:
                         if (name_flag == true)

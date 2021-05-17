@@ -103,6 +103,9 @@
   <PropertyGroup>
     <ApplicationIcon>NDIMirrorTool.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NDILibDotNetLicht">
       <HintPath>..\Bin\NDILibDotNetLicht.dll</HintPath>
